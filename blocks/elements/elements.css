@@ -9,5 +9,6 @@
     .elements{
         margin-top: 36px;
         max-width: 282px;
+        min-height: 400px;
     }
 }

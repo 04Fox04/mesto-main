@@ -1,3 +1,9 @@
+import {Card, initialCards} from "./Card.js";
+// import {FormValidator, Card} from "./validate.js";
+
+// const card = new Card(initialCards);
+// card.render();
+
 
 // открытие/закрытие формы для редактирования профиля
 const buttonOpenPopupProfile = document.querySelector('.profile__info-button');
@@ -17,6 +23,7 @@ const buttonAddClose = document.querySelector('.popup__add-close');
 const tempalate = document.querySelector('.template').content;
 const elements = document.querySelector('.elements');
 const elementsList = elements.querySelector('.elements__list');
+const formAdd = document.querySelector('.formAdd');
 // добавление карточек
 const title = document.querySelector('.popup__input_type_title');
 const link = document.querySelector('.popup__input_type_link');
@@ -28,10 +35,6 @@ const windowImage = document.querySelector('.popup__window-image');
 const popupZoomTitle = document.querySelector('.popup__zoom-title');
 const buttonWindowClose = document.querySelector('.popup__window-close')
 
-function closePopup (element) {
-  element.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupEsc);
-}
 function closePopupEsc (evt) {
   if (evt.key === 'Escape') {
     const popupOpened = document.querySelector('.popup_opened')
@@ -41,6 +44,16 @@ function closePopupEsc (evt) {
 function openPopup (element) {
   element.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupEsc);
+}
+const popupList = Array.from(document.querySelectorAll('.popup'));
+popupList.forEach((element) => {
+  element.addEventListener("click", (evt) => {
+  closePopup(evt.target)
+  });
+});
+function closePopup (element) {
+  element.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupEsc);
 }
 const openPopupEdit = () => {
     openPopup (popupEditProfile);
@@ -55,44 +68,52 @@ function submiteEditForm(evt) {
     profileJob.textContent = popupJob.value;
     closePopup(popupEditProfile);
 }
-function createCard(nameValue, linkValue) {
-    const elementsItem = tempalate.querySelector('.elements__item').cloneNode(true);
-    elementsItem.querySelector('.elements__title').textContent = nameValue;
-    elementsItem.querySelector('.elements__delete').addEventListener('click', function (){
-      elementsItem.remove();
-    });
-    elementsItem.querySelector('.elements__like').addEventListener('click', function (evt) {
-      evt.target.classList.toggle('elements__like-active');
-    });
-    const elementsImage = elementsItem.querySelector('.elements__image');
-    elementsImage.src = linkValue;
-    elementsImage.alt = nameValue;
-    elementsImage.addEventListener('click', (evt) => {
-      const windowCard = evt.target;
-      windowImage.src = windowCard.src;
-      windowImage.alt = nameValue;
-      popupZoomTitle.textContent = nameValue;
-      openPopup(popupZoomImage);
-    });
-    return elementsItem;
-};
-initialCards.forEach((card) => {
-  const addCardNew = createCard(card.name, card.link);
-  elementsList.append(addCardNew);
+function openZoomImage () {
+  openPopup(popupZoomImage);
+  windowImage.src = this.link;
+  windowImage.alt = this.name;
+  popupZoomTitle.textContent = this.name;
+}
+initialCards.forEach((item) => {
+  const card = new Card (item.name, item.link, tempalate, openZoomImage);
+  const elementCreateCard = card.generateCard();
+  elementsList.append(elementCreateCard);
 });
 function submiteCreateForm(evt) {
     evt.preventDefault();
-    const addCardNew = createCard(title.value, link.value);
-    elementsList.prepend(addCardNew);
+    const elementArrayImage = new Card(title.value, link.value, tempalate, openZoomImage);
+    const elementCreateCard = elementArrayImage.generateCard();
+    elements.prepend(elementCreateCard);
     closePopup(popupAdd);
-    evt.target.reset();
+    formAdd.reset();
 };
-  const popupList = Array.from(document.querySelectorAll('.popup'));
-  popupList.forEach((elem) => {
-    elem.addEventListener("click", (evt) => {
-    closePopup(evt.target)
-    });
-  });
+// function createCard(nameValue, linkValue) {
+//     const elementsItem = tempalate.querySelector('.elements__item').cloneNode(true);
+//     elementsItem.querySelector('.elements__title').textContent = nameValue;
+// ----------------
+//     elementsItem.querySelector('.elements__delete').addEventListener('click', function (){
+//       elementsItem.remove();
+//     });
+//     elementsItem.querySelector('.elements__like').addEventListener('click', function (evt) {
+//       evt.target.classList.toggle('elements__like-active');
+//     });
+// ---------------
+//     const elementsImage = elementsItem.querySelector('.elements__image');
+//     elementsImage.src = linkValue;
+//     elementsImage.alt = nameValue;
+//     elementsImage.addEventListener('click', (evt) => {
+//       const windowCard = evt.target;
+//       windowImage.src = windowCard.src;
+//       windowImage.alt = nameValue;
+//       popupZoomTitle.textContent = nameValue;
+//       openPopup(popupZoomImage);
+//     });
+//     return elementsItem;
+// };
+
+
+
+
 
 buttonWindowClose.addEventListener('click', () => { closePopup(popupZoomImage)});
 containerAdd.addEventListener('submit', submiteCreateForm);
