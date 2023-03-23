@@ -1,5 +1,6 @@
-import {Card, initialCards} from "./Card.js";
-import {Formvalidator, object} from "./validate.js";
+import {Card} from "./Card.js";
+import {FormValidator} from "./validate.js";
+import {initialCards, validationConfig } from "./constants.js"
 
 // открытие/закрытие формы для редактирования профиля
 const buttonOpenPopupProfile = document.querySelector('.profile__info-button');
@@ -32,7 +33,7 @@ const windowImage = document.querySelector('.popup__window-image');
 const popupZoomTitle = document.querySelector('.popup__zoom-title');
 const buttonWindowClose = document.querySelector('.popup__window-close')
 
-function closePopupEsc (evt) {
+function closePopupByEsc (evt) {
   if (evt.key === 'Escape') {
     const popupOpened = document.querySelector('.popup_opened')
     closePopup(popupOpened);
@@ -40,49 +41,54 @@ function closePopupEsc (evt) {
 }
 function openPopup (element) {
   element.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupEsc);
+  document.addEventListener('keydown', closePopupByEsc);
 }
 const popupList = Array.from(document.querySelectorAll('.popup'));
 popupList.forEach((element) => {
   element.addEventListener("click", (evt) => {
-  closePopup(evt.target)
+    if (evt.target.classList.contains('popup')) {
+      closePopup(evt.target);
+    };
   });
 });
 function closePopup (element) {
   element.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupEsc);
+  document.removeEventListener('keydown', closePopupByEsc);
 }
 const openPopupEdit = () => {
-    openPopup (popupEditProfile);
-    const name = profileName.textContent;
-    const job = profileJob.textContent;
-    popupName.value = name;
-    popupJob.value = job;
+  openPopup (popupEditProfile);
+  const name = profileName.textContent;
+  const job = profileJob.textContent;
+  popupName.value = name;
+  popupJob.value = job;
 }
 function submiteEditForm(evt) {
-    evt.preventDefault (); 
-    profileName.textContent = popupName.value;
-    profileJob.textContent = popupJob.value;
-    closePopup(popupEditProfile);
+  evt.preventDefault (); 
+  profileName.textContent = popupName.value;
+  profileJob.textContent = popupJob.value;
+  closePopup(popupEditProfile);
 }
-function openZoomImage () {
+function openZoomImage (name, link) {
   openPopup(popupZoomImage);
-  windowImage.src = this.link;
-  windowImage.alt = this.name;
-  popupZoomTitle.textContent = this.name;
+  windowImage.src = link;
+  windowImage.alt = name;
+  popupZoomTitle.textContent = name;
 }
 initialCards.forEach((item) => {
-  const card = new Card (item.name, item.link, tempalate, openZoomImage);
-  const elementCreateCard = card.generateCard();
-  elementsList.append(elementCreateCard);
+  elementsList.append(createCard(item.link, item.name));
 });
+function createCard(link, name) {
+  const card = new Card (name, link, tempalate, openZoomImage);
+  const elementCreateCard = card.generateCard();
+  return elementCreateCard;
+}
 function submiteCreateForm(evt) {
-    evt.preventDefault();
-    const elementArrayImage = new Card(title.value, link.value, tempalate, openZoomImage);
-    const elementCreateCard = elementArrayImage.generateCard();
-    elementsList.prepend(elementCreateCard);
-    closePopup(popupAdd);
-    formСreation.reset();
+  evt.preventDefault();
+  const elementArrayImage = new Card(title.value, link.value, tempalate, openZoomImage);
+  const elementCreateCard = elementArrayImage.generateCard();
+  elementsList.prepend(elementCreateCard);
+  closePopup(popupAdd);
+  formСreation.reset();
 };
 
 buttonWindowClose.addEventListener('click', () => { closePopup(popupZoomImage)});
@@ -90,14 +96,12 @@ containerAdd.addEventListener('submit', submiteCreateForm);
 popupFormEditProfile.addEventListener('submit', submiteEditForm); 
 buttonOpenPopupProfile.addEventListener('click', openPopupEdit);
 buttonEditClose.addEventListener('click', () => { closePopup(popupEditProfile)});
-openButtonAdd.addEventListener('click', () => { 
-  openPopup(popupAdd);
-  popupAddSubmit.classList.add('popup__no-submit');
+openButtonAdd.addEventListener('click', () => { openPopup(popupAdd);
+   formValidAdd.toggleButtonState();
 });
 buttonAddClose.addEventListener('click', () => { closePopup(popupAdd)});
 
-const formValidEdit = new Formvalidator(object, formEdit);
+const formValidEdit = new FormValidator(validationConfig, formEdit);
 formValidEdit.enableValidation();
-
-const formValidAdd = new Formvalidator(object, formСreation);
+const formValidAdd = new FormValidator(validationConfig, formСreation);
 formValidAdd.enableValidation();

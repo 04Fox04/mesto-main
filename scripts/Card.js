@@ -1,35 +1,9 @@
 export { Card, initialCards};
-const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
-
+import {initialCards} from "./constants.js"
 class Card {
     constructor(name, link, templateSelector, openZoomImage){
-        this.name = name;
-        this.link = link;
+        this._name = name;
+        this._link = link;
         this._cardsTemplate = templateSelector; 
         this._openZoomImage = openZoomImage;
     }
@@ -40,21 +14,23 @@ class Card {
     generateCard() {
         this._element = this._getTamplate();
         this._elementZoomImage = this._element.querySelector('.elements__image');
-        this._elementZoomImage.src = this.link;
-        this._elementZoomImage.alt = this.name;
-        this._element.querySelector('.elements__title').textContent = this.name;
+        this._elementZoomImage.src = this._link;
+        this._elementZoomImage.alt = this._name;
+        this._element.querySelector('.elements__title').textContent = this._name;
         this._setEventListeners();
         return this._element;
     }
     _setEventListeners() {
         this._element.querySelector('.elements__like').addEventListener('click', (evt) => {
         evt.target.classList.toggle('elements__like-active');
+        //у меня отступы отображаются корректно ) 
+        //https://pastenow.ru/5157c003c4de9d518e8480092e728b77
         });
         this._element.querySelector('.elements__delete').addEventListener('click', () => {
         this._element.remove();
         })
-        this._element.querySelector('.elements__image').addEventListener('click', () => {
-        this._openZoomImage();
+        this._elementZoomImage.addEventListener('click', () => {
+          this._openZoomImage(this._name, this._link);
         });
     }
 }
