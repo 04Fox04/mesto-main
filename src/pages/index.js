@@ -1,12 +1,25 @@
 import "./index.css";
 import Card from "../scripts/Components/Card.js";
-import Section from "../scripts/Components/section.js";
-import PopupWithForm from "../scripts/Components/popupWithForm.js";
-import PopupWithImage from "../scripts/Components/popupWithImage.js";
-import UserInfo from "../scripts/Components/userInfo.js";
-import {FormValidator} from "../scripts/Components/validate.js";
-import {initialCards, validationConfig, buttonOpenPopupProfile, popupEditProfile, popupFormEditProfile, profileName, profileJob, popupAdd, openButtonAdd, tempalate, elements, elementsList, formСreation, popupZoomImage } from "../scripts/utils/constants.js"
+import Section from "../scripts/Components/Section.js";
+import PopupWithForm from "../scripts/Components/PopupWithForm.js";
+import PopupWithImage from "../scripts/Components/PopupWithImage.js";
+import UserInfo from "../scripts/Components/UserInfo.js";
+import FormValidator from "../scripts/Components/Validate.js";
+import {validationConfig, buttonOpenPopupProfile, popupEditProfile, popupFormEditProfile, profileName, profileJob, popupAdd, openButtonAdd, tempalate, elements, elementsList, formСreation, popupZoomImage, ButtonAvatarEdit} from "../scripts/utils/constants.js"
+//--------
+import Api from "../scripts/Components/Api.js";
+//--------
 
+
+// fetch('https://mesto.nomoreparties.co/v1/cohort-64/cards', {
+//   headers: {
+//     authorization: '370c2e24-51f6-42f1-a96f-2c7119c66fcc'
+//   }
+// })
+//   .then(res => res.json())
+//   .then((result) => {
+//     console.log(result);
+//   });
 
 const validateEdit = new FormValidator(validationConfig, popupFormEditProfile);
 validateEdit.enableValidation()
@@ -32,12 +45,11 @@ const rendererCard = (item) => {
 
 function createCard(data) {
   const card = new Card (data.name, data.link, tempalate, openZoomImage);
-  const elementCreateCard = card.generateCard();
-  return elementCreateCard;
+  return card.generateCard();
 }
 
-const section = new Section({items: initialCards, renderer: rendererCard}, elementsList)
-section.renderer();
+// const section = new Section({items: initialCards, renderer: rendererCard}, elementsList)
+// section.renderer();
 
 const handlerAddProfile = (data) => {
   rendererCard(data);
@@ -56,3 +68,22 @@ openButtonAdd.addEventListener('click', () => {
   validateAdd.toggleButtonState();
 });
 
+// ButtonAvatarEdit.addEventListener('click', () => {
+//   formEdit.open(); 
+//   formEdit.setInputValues(userInfo.getUserInfo());
+// });
+
+
+const api = new Api({
+  url: 'https://mesto.nomoreparties.co/v1/cohort-64/cards',
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: '370c2e24-51f6-42f1-a96f-2c7119c66fcc'
+  }
+})
+
+api.getInitialCards()
+  .then((initialCards) => {
+    const section = new Section({initialCards, renderer: rendererCard}, elementsList)
+    section.renderer();
+  })

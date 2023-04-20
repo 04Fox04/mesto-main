@@ -1,32 +1,32 @@
 // export {initialCards, validationConfig};
-export {initialCards, validationConfig, buttonOpenPopupProfile, popupEditProfile, popupFormEditProfile, profileName, profileJob, popupAdd, openButtonAdd, tempalate, elements, elementsList, formСreation, popupZoomImage};
+export {validationConfig, buttonOpenPopupProfile, popupEditProfile, popupFormEditProfile, profileName, profileJob, popupAdd, openButtonAdd, tempalate, elements, elementsList, formСreation, popupZoomImage, ButtonAvatarEdit};
 
-const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
+// const initialCards = [
+//     {
+//       name: 'Архыз',
+//       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+//     },
+//     {
+//       name: 'Челябинская область',
+//       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+//     },
+//     {
+//       name: 'Иваново',
+//       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+//     },
+//     {
+//       name: 'Камчатка',
+//       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+//     },
+//     {
+//       name: 'Холмогорский район',
+//       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+//     },
+//     {
+//       name: 'Байкал',
+//       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+//     }
+// ];
 
 const validationConfig = {
     inputSelector: '.popup__input',
@@ -48,3 +48,4 @@ const elements = document.querySelector('.elements');
 const elementsList = elements.querySelector('.elements__list');
 const formСreation = document.querySelector('.formAdd');
 const popupZoomImage = document.querySelector('.popup-window');
+const ButtonAvatarEdit = document.querySelector('.profile__avatar-edit');
