@@ -39,7 +39,7 @@
                 <span class="error-text name-error"></span>
                 <input type="text" id="description" name="job" class="popup__input popup__input_type_job" minlength="2" maxlength="200" required placeholder="Описание">
                 <span class="error-text description-error"></span>
-                <button class="popup__save" type="submit" aria-label="Сохранить">Сохранить</button>
+                <button class="popup__save popup__edit-save" type="submit" aria-label="Сохранить">Сохранить</button>
             </form>
         </div>
      </section>
@@ -63,7 +63,7 @@
             <h2 class="popup__zoom-title"></h2>
         </div>
      </section>
-     <section class="popup delete-card">
+     <section class="popup popup_delete-card">
         <div class="popup__container">
             <button type="button" class="popup__close" aria-label="Закрыть форму"></button>
             <h3 class="popup__name">Вы уверены?</h3>
@@ -72,15 +72,15 @@
             </form>
           </div>
      </section>
-     <section class="popup edit-profile">
+     <section class="popup edit-avatar">
         <div class="popup__container">
             <button type="button" class="popup__close" aria-label="Закрыть форму"></button>
             <h3 class="popup__name">Обновить аватар</h3>
-            <form class="popup__form" name="user-avatar" novalidate>
+            <form class="popup__form popup__form-avatar" name="user-avatar" novalidate>
                 <input type="url" id="url" name="link" class="popup__input popup__input_type_link" required placeholder="Ссылка на картинку">
                 <span class="error-text url-error"></span>
               </label>
-              <button type="submit" class="popup__save" aria-label="Сохранить">Сохранить</button>
+              <button type="submit" class="popup__save popup__avatar-save" aria-label="Сохранить">Сохранить</button>
             </form>
           </div>
      </section>
@@ -90,7 +90,10 @@
             <img src="#" alt="фото" class="elements__image">
             <div class="elements__container">
                 <h3 class="elements__title"></h3>
-                <button class="elements__like" type="button" aria-label="Нравится"></button>
+                <div>
+                    <button class="elements__like" type="button" aria-label="Нравится"></button>
+                    <div class="elements__number-like">0</div>
+                </div>
             </div>
         </li>
      </template>
